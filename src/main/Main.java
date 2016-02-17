@@ -14,12 +14,12 @@ public class Main {
 
 	public static void main(String[] args) {
 		try {
-			InvertedIndexKB.createInvertedIndex();
+//			InvertedIndexKB.createInvertedIndex();
 //			InvertedIndexWikidMid.createIndexWikidMid();
 //			InvertedIndexRedirect.createIndexRedirect();
 //			InvertedIndexRT.createInvertedIndex();
 //			InvertedIndexTypesFromRel.createInvertedIndex();
-//			InvertedIndexUnrelatedPairs.createInvertedIndex();
+			InvertedIndexUnrelatedPairs.createInvertedIndex();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

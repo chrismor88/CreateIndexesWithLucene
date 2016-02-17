@@ -11,6 +11,7 @@ import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 
 import messages.Message;
+import util.DocsCounter;
 
 
 
@@ -21,13 +22,15 @@ public class ConsumerUnrelatedPairs extends Thread {
 	private BlockingQueue<String> messageBuffer; //buffer in cui vengono trasmessi e prelevati le stringhe di tipo json
 	private BlockingQueue<String> outputBuffer; //buffer per comunicare al produttore la terminazione dei consumatori
 	private IndexWriter myIndexWriter;
+	private DocsCounter docsCounter;
 
 
 
-	public ConsumerUnrelatedPairs(BlockingQueue<String> messageBuffer, BlockingQueue<String> responseBuffer,IndexWriter writer){
+	public ConsumerUnrelatedPairs(BlockingQueue<String> messageBuffer, BlockingQueue<String> responseBuffer,IndexWriter writer, DocsCounter docsCounter){
 		this.messageBuffer = messageBuffer;
 		this.outputBuffer = responseBuffer;
 		this.myIndexWriter = writer;
+		this.docsCounter = docsCounter;
 
 
 	}
@@ -76,6 +79,8 @@ public class ConsumerUnrelatedPairs extends Thread {
 				synchronized (myIndexWriter) {
 					try {
 						myIndexWriter.addDocument(doc);
+						this.docsCounter.incrementCounter();
+						System.out.println(this.docsCounter.getCounter());
 					} catch (IOException e) {
 						e.printStackTrace();
 					}

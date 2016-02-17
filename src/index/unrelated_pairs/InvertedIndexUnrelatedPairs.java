@@ -24,16 +24,17 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
 import messages.Message;
+import util.DocsCounter;
 
 public class InvertedIndexUnrelatedPairs {
 
-	static final String IndexPath = "C:\\Users\\Christian\\Documents\\Tesi\\lucene\\index_unrelated_pairs";
-	static final String fileInputPath = "C:\\Users\\Christian\\Documents\\Tesi\\componenti\\wikipedia_unrelated_mids.tsv";
+	static final String IndexPath = "/Users/christian/Documents/Tesi/lucene/index_unrelated_pairs_clueweb";
+	static final String fileInputPath = "/Users/christian/Documents/Tesi/componenti/clueweb_unrelated_mids.tsv";
 
 	
 
 	public static void createInvertedIndex() throws FileNotFoundException, IOException {
-		int counter = 0;
+		DocsCounter docsCounter = new DocsCounter();
 		BlockingQueue<String> messageBuffer = new LinkedBlockingQueue<String>(1000);
 		BlockingQueue<String> responseBuffer = new LinkedBlockingQueue<String>(10);
 		int cores = Runtime.getRuntime().availableProcessors();
@@ -49,6 +50,7 @@ public class InvertedIndexUnrelatedPairs {
 		Directory index = FSDirectory.open(new File((IndexPath)));
 		IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_47,analyzer);
 		config.setOpenMode(OpenMode.CREATE_OR_APPEND);
+		config.setRAMBufferSizeMB(4096);
 
 		Date start = new Date();
 		
@@ -56,7 +58,7 @@ public class InvertedIndexUnrelatedPairs {
 		
 		
 		for(int i=0; i< consumers.length;i++){
-			consumers[i] = new ConsumerUnrelatedPairs(messageBuffer, responseBuffer,writer);
+			consumers[i] = new ConsumerUnrelatedPairs(messageBuffer, responseBuffer,writer,docsCounter);
 			consumers[i].start();
 		}
 		
