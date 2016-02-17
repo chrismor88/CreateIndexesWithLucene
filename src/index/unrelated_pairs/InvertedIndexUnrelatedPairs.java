@@ -1,4 +1,4 @@
-package index.relations_types;
+package index.unrelated_pairs;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,21 +25,22 @@ import org.apache.lucene.util.Version;
 
 import messages.Message;
 
-public class InvertedIndexRT {
+public class InvertedIndexUnrelatedPairs {
+
+	static final String IndexPath = "C:\\Users\\Christian\\Documents\\Tesi\\lucene\\index_unrelated_pairs";
+	static final String fileInputPath = "C:\\Users\\Christian\\Documents\\Tesi\\componenti\\wikipedia_unrelated_mids.tsv";
 
 	
-	static final String IndexPath = "C:\\Users\\Christian\\Documents\\Tesi\\lucene\\index_schema_complete";
-	static final String RTPath = "C:\\Users\\Christian\\Documents\\Tesi\\componenti\\schema_complete.tsv";
-
 
 	public static void createInvertedIndex() throws FileNotFoundException, IOException {
+		int counter = 0;
 		BlockingQueue<String> messageBuffer = new LinkedBlockingQueue<String>(1000);
 		BlockingQueue<String> responseBuffer = new LinkedBlockingQueue<String>(10);
 		int cores = Runtime.getRuntime().availableProcessors();
 		
-		ConsumerRT[] consumers = new ConsumerRT[cores];
+		ConsumerUnrelatedPairs[] consumers = new ConsumerUnrelatedPairs[cores];
 		
-		FileReader f = new FileReader(RTPath);
+		FileReader f = new FileReader(fileInputPath);
 		BufferedReader b = new BufferedReader(f);
 
 		System.out.println("Creazione Indice inverso nella direcory: " +IndexPath + "'...");
@@ -55,7 +56,7 @@ public class InvertedIndexRT {
 		
 		
 		for(int i=0; i< consumers.length;i++){
-			consumers[i] = new ConsumerRT(messageBuffer, responseBuffer,writer);
+			consumers[i] = new ConsumerUnrelatedPairs(messageBuffer, responseBuffer,writer);
 			consumers[i].start();
 		}
 		
@@ -88,6 +89,9 @@ public class InvertedIndexRT {
 		writer.close();
 		b.close();
 		f.close();
+
+		System.out.println("CONCLUSA. ");
+		System.out.println("Creazione del dizionario in corso...");
 
 		Date end = new Date();
 		System.out.println(end.getTime() - start.getTime() + " total milliseconds");

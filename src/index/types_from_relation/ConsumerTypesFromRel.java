@@ -1,4 +1,4 @@
-package index.relations_types;
+package index.types_from_relation;
 
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ import messages.Message;
 
 
 
-public class ConsumerRT extends Thread {
+public class ConsumerTypesFromRel extends Thread {
 
 	private BlockingQueue<String> messageBuffer; //buffer in cui vengono trasmessi e prelevati le stringhe di tipo json
 	private BlockingQueue<String> outputBuffer; //buffer per comunicare al produttore la terminazione dei consumatori
@@ -24,15 +24,13 @@ public class ConsumerRT extends Thread {
 
 
 
-	public ConsumerRT(BlockingQueue<String> messageBuffer, BlockingQueue<String> responseBuffer,IndexWriter writer){
+	public ConsumerTypesFromRel(BlockingQueue<String> messageBuffer, BlockingQueue<String> responseBuffer,IndexWriter writer){
 		this.messageBuffer = messageBuffer;
 		this.outputBuffer = responseBuffer;
 		this.myIndexWriter = writer;
 
 
 	}
-
-
 
 	@Override
 	public void run() {
@@ -67,13 +65,11 @@ public class ConsumerRT extends Thread {
 				Document doc = new Document();
 
 
+				Field predicateField = new TextField("predicate",predicate,Field.Store.YES);
+				predicateField.setBoost(2.0f);
 
-				Field type1Field= new TextField("type1",type1,Field.Store.YES);
-				type1Field.setBoost(2.0f);
-				Field type2Field= new TextField("type2",type2,Field.Store.YES);
-				type2Field.setBoost(2.0f);
-
-				Field predicateField = new StringField("predicate",predicate,Field.Store.YES);
+				Field type1Field= new TextField("subjectType",type1,Field.Store.YES);
+				Field type2Field= new TextField("objectType",type2,Field.Store.YES);
 				Field frequencyField = new StringField("frequency",frequency,Field.Store.YES);
 				
 				doc.add(frequencyField);

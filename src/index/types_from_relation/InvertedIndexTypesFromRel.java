@@ -1,4 +1,4 @@
-package index.relations_types;
+package index.types_from_relation;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,10 +25,10 @@ import org.apache.lucene.util.Version;
 
 import messages.Message;
 
-public class InvertedIndexRT {
+public class InvertedIndexTypesFromRel {
 
 	
-	static final String IndexPath = "C:\\Users\\Christian\\Documents\\Tesi\\lucene\\index_schema_complete";
+	static final String IndexPath = "C:\\Users\\Christian\\Documents\\Tesi\\lucene\\index_types_from_rel";
 	static final String RTPath = "C:\\Users\\Christian\\Documents\\Tesi\\componenti\\schema_complete.tsv";
 
 
@@ -37,7 +37,7 @@ public class InvertedIndexRT {
 		BlockingQueue<String> responseBuffer = new LinkedBlockingQueue<String>(10);
 		int cores = Runtime.getRuntime().availableProcessors();
 		
-		ConsumerRT[] consumers = new ConsumerRT[cores];
+		ConsumerTypesFromRel[] consumers = new ConsumerTypesFromRel[cores];
 		
 		FileReader f = new FileReader(RTPath);
 		BufferedReader b = new BufferedReader(f);
@@ -55,7 +55,7 @@ public class InvertedIndexRT {
 		
 		
 		for(int i=0; i< consumers.length;i++){
-			consumers[i] = new ConsumerRT(messageBuffer, responseBuffer,writer);
+			consumers[i] = new ConsumerTypesFromRel(messageBuffer, responseBuffer,writer);
 			consumers[i].start();
 		}
 		
@@ -68,8 +68,6 @@ public class InvertedIndexRT {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
-			
 		}
 		try {
 			messageBuffer.put(Message.FINISHED_PRODUCER);

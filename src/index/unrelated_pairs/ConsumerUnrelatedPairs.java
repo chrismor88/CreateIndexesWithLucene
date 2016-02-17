@@ -1,4 +1,4 @@
-package index.relations_types;
+package index.unrelated_pairs;
 
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ import messages.Message;
 
 
 
-public class ConsumerRT extends Thread {
+public class ConsumerUnrelatedPairs extends Thread {
 
 	private BlockingQueue<String> messageBuffer; //buffer in cui vengono trasmessi e prelevati le stringhe di tipo json
 	private BlockingQueue<String> outputBuffer; //buffer per comunicare al produttore la terminazione dei consumatori
@@ -24,7 +24,7 @@ public class ConsumerRT extends Thread {
 
 
 
-	public ConsumerRT(BlockingQueue<String> messageBuffer, BlockingQueue<String> responseBuffer,IndexWriter writer){
+	public ConsumerUnrelatedPairs(BlockingQueue<String> messageBuffer, BlockingQueue<String> responseBuffer,IndexWriter writer){
 		this.messageBuffer = messageBuffer;
 		this.outputBuffer = responseBuffer;
 		this.myIndexWriter = writer;
@@ -36,13 +36,8 @@ public class ConsumerRT extends Thread {
 
 	@Override
 	public void run() {
-
-
 		super.run();
-
 		while(true){
-
-
 			String message = "";
 			try {
 				message = messageBuffer.take();
@@ -57,29 +52,26 @@ public class ConsumerRT extends Thread {
 			else{
 
 				String [] fieldsRecord = message.split("\t");
-				String frequency = fieldsRecord[0];
-				String predicate = fieldsRecord[1];
-				String type1 = fieldsRecord[2];
-				String type2 = fieldsRecord[3];
+				String mid1 = fieldsRecord[0];
+				String mid2 = fieldsRecord[1];
+				String patterns = fieldsRecord[2];
 
 
 				//creazione del Document con i relativi campi d'interesse
 				Document doc = new Document();
 
 
+				Field mid1Field= new TextField("mid1",mid1,Field.Store.YES);
+				mid1Field.setBoost(2.0f);
+				Field mid2Field= new TextField("mid2",mid2,Field.Store.YES);
+				mid2Field.setBoost(2.0f);
 
-				Field type1Field= new TextField("type1",type1,Field.Store.YES);
-				type1Field.setBoost(2.0f);
-				Field type2Field= new TextField("type2",type2,Field.Store.YES);
-				type2Field.setBoost(2.0f);
+				Field patternsField = new StringField("patterns",patterns,Field.Store.YES);
+		
 
-				Field predicateField = new StringField("predicate",predicate,Field.Store.YES);
-				Field frequencyField = new StringField("frequency",frequency,Field.Store.YES);
-				
-				doc.add(frequencyField);
-				doc.add(type1Field);
-				doc.add(type2Field);
-				doc.add(predicateField);
+				doc.add(mid1Field);
+				doc.add(mid2Field);
+				doc.add(patternsField);
 
 				synchronized (myIndexWriter) {
 					try {
