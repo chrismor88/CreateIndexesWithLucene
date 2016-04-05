@@ -23,7 +23,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
-import messages.Message;
+import index.messages.Message;
 
 public class InvertedIndexRT {
 

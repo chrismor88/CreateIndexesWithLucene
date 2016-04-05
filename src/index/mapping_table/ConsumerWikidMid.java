@@ -8,7 +8,7 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 
-import messages.Message;
+import index.messages.Message;
 
 public class ConsumerWikidMid extends Thread {
 

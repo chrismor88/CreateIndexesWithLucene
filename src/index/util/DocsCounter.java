@@ -1,4 +1,4 @@
-package util;
+package index.util;
 
 public class DocsCounter {
 	private int counter;

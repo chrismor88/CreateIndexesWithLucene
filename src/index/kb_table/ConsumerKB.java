@@ -10,8 +10,8 @@ import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 
-import messages.Message;
-import util.DocsCounter;
+import index.messages.Message;
+import index.util.DocsCounter;
 
 
 
@@ -47,7 +47,6 @@ public class ConsumerKB extends Thread {
 				e.printStackTrace();
 			}
 
-
 			if(message.equals(Message.FINISHED_PRODUCER)){
 				break;
 			}
@@ -63,7 +62,7 @@ public class ConsumerKB extends Thread {
 //				String types2 = fieldsRecord[6];
 				
 				
-				for(String rel : relations.split(",")){
+//				for(String rel : relations.split(",")){
 					//creazione del Document con i relativi campi d'interesse
 					Document doc = new Document();
 
@@ -72,7 +71,7 @@ public class ConsumerKB extends Thread {
 					Field mid2Field= new TextField("mid2",mid2,Field.Store.YES);
 					mid2Field.setBoost(2.0f);
 
-					Field predicateField = new StringField("predicate",rel,Field.Store.YES);
+					Field predicateField = new StringField("predicate",relations,Field.Store.YES);
 //					Field title1Field = new StringField("title1",title1,Field.Store.YES);
 //					Field title2Field = new StringField("title2",title2,Field.Store.YES);
 //					Field types1Field = new StringField("types1",types1,Field.Store.YES);
@@ -94,7 +93,7 @@ public class ConsumerKB extends Thread {
 							e.printStackTrace();
 						}
 					}
-				}
+//				}
 			}
 
 		}

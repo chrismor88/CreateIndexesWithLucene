@@ -10,8 +10,8 @@ import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 
-import messages.Message;
-import util.DocsCounter;
+import index.messages.Message;
+import index.util.DocsCounter;
 
 
 
@@ -69,12 +69,12 @@ public class ConsumerUnrelatedPairs extends Thread {
 				Field mid2Field= new TextField("mid2",mid2,Field.Store.YES);
 				mid2Field.setBoost(2.0f);
 
-				Field patternsField = new StringField("patterns",patterns,Field.Store.YES);
+				Field patternField = new StringField("pattern",patterns,Field.Store.YES);
 		
 
 				doc.add(mid1Field);
 				doc.add(mid2Field);
-				doc.add(patternsField);
+				doc.add(patternField);
 
 				synchronized (myIndexWriter) {
 					try {

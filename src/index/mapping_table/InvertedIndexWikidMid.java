@@ -23,8 +23,8 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.util.Version;
 
+import index.messages.Message;
 import index.relations_types.ConsumerRT;
-import messages.Message;
 
 import org.apache.lucene.search.spell.Dictionary;
 import org.apache.lucene.search.spell.LuceneDictionary;

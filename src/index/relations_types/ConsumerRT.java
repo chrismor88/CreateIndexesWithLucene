@@ -10,7 +10,7 @@ import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 
-import messages.Message;
+import index.messages.Message;
 
 
 

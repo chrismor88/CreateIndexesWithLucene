@@ -23,15 +23,15 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
-import messages.Message;
-import util.DocsCounter;
+import index.messages.Message;
+import index.util.DocsCounter;
 
 public class InvertedIndexKB {
 
-	static final String IndexPath = "C:\\Users\\Christian\\Documents\\Tesi\\lucene\\index_datagraph_new";
+	
+	static final String IndexPath = "C:\\Users\\Christian\\Documents\\Tesi\\lucene\\index_datagraph";
 	static final String KBPath = "C:\\Users\\Christian\\Documents\\Tesi\\componenti\\mid_mid_relations.tsv";
 
-	
 
 	public static void createInvertedIndex() throws FileNotFoundException, IOException {
 		DocsCounter docsCounter = new DocsCounter();
@@ -63,11 +63,10 @@ public class InvertedIndexKB {
 		}
 		
 
-		
 		String line ="";
 		while((line=b.readLine())!=null){
 			try {
-				messageBuffer.put(line);
+					messageBuffer.put(line);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -93,10 +92,8 @@ public class InvertedIndexKB {
 		f.close();
 
 		System.out.println("CONCLUSA. ");
-		System.out.println("Creazione del dizionario in corso...");
-
 		Date end = new Date();
 		System.out.println(end.getTime() - start.getTime() + " total milliseconds");
-		System.out.println("CONCLUSA");
+		System.out.println((end.getTime() - start.getTime()) / 1000 +" secs");
 	}
 }

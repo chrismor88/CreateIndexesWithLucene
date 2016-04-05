@@ -23,14 +23,15 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
-import messages.Message;
-import util.DocsCounter;
+import index.messages.Message;
+import index.util.DocsCounter;
 
 public class InvertedIndexUnrelatedPairs {
 
-	static final String IndexPath = "/Users/christian/Documents/Tesi/lucene/index_unrelated_pairs_clueweb";
-	static final String fileInputPath = "/Users/christian/Documents/Tesi/componenti/clueweb_unrelated_mids.tsv";
 
+	
+	static final String IndexPath = "C:\\Users\\Christian\\Documents\\Tesi\\lucene\\index_unrelated_pairs_wikipedia";
+	static final String fileInputPath = "C:\\Users\\Christian\\Documents\\Tesi\\componenti\\unrelated_annotated_sentences.tsv";
 	
 
 	public static void createInvertedIndex() throws FileNotFoundException, IOException {
@@ -46,6 +47,7 @@ public class InvertedIndexUnrelatedPairs {
 
 		System.out.println("Creazione Indice inverso nella direcory: " +IndexPath + "'...");
 		Analyzer analyzer = new KeywordAnalyzer();
+//		Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_47);
 
 		Directory index = FSDirectory.open(new File((IndexPath)));
 		IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_47,analyzer);
@@ -71,9 +73,8 @@ public class InvertedIndexUnrelatedPairs {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
-			
 		}
+		
 		try {
 			messageBuffer.put(Message.FINISHED_PRODUCER);
 			int counterConsumerFinished = 0;
@@ -93,10 +94,8 @@ public class InvertedIndexUnrelatedPairs {
 		f.close();
 
 		System.out.println("CONCLUSA. ");
-		System.out.println("Creazione del dizionario in corso...");
 
 		Date end = new Date();
 		System.out.println(end.getTime() - start.getTime() + " total milliseconds");
-		System.out.println("CONCLUSA");
 	}
 }

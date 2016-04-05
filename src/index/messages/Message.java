@@ -1,4 +1,4 @@
-package messages;
+package index.messages;
 
 public class Message {
 
